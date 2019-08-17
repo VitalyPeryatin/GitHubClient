@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name" translatable="false">GitHubClient</string>
+    <string name="search">Search</string>
+    <string name="favourites">Favourites</string>
+    <string name="followers">Followers</string>
+    <string name="following">Following</string>
+    <string name="about_me">About me</string>
+    <string name="cache_user">Cache user</string>
+    <string name="no_cached_users">You have not saved any users</string>
+</resources>

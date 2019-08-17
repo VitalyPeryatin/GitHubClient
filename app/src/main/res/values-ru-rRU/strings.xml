@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="about_me">О себе</string>
+    <string name="cache_user">Сохранить пользователя</string>
+    <string name="favourites">Избранные</string>
+    <string name="followers">Подписчиков</string>
+    <string name="following">Подписок</string>
+    <string name="search">Поиск</string>
+    <string name="no_cached_users">Вы не сохранили ни одного пользователя</string>
+</resources>
