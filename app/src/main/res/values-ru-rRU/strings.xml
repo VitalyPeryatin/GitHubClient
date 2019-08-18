@@ -7,4 +7,5 @@
     <string name="following">Подписок</string>
     <string name="search">Поиск</string>
     <string name="no_cached_users">Вы не сохранили ни одного пользователя</string>
+    <string name="add_to_bookmark">Добавить пользователя в закладки</string>
 </resources>

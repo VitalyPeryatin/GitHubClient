@@ -7,4 +7,5 @@
     <string name="about_me">About me</string>
     <string name="cache_user">Cache user</string>
     <string name="no_cached_users">You have not saved any users</string>
+    <string name="add_to_bookmark">Bookmark this user</string>
 </resources>

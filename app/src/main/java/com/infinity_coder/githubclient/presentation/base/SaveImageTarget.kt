@@ -6,16 +6,16 @@ import com.squareup.picasso.Picasso
 
 class SaveImageTarget(
     private val bitmapLoaded: (bitmap: Bitmap) -> Unit = { _ -> }
-    ) : com.squareup.picasso.Target {
-        override fun onPrepareLoad(placeHolderDrawable: Drawable?) {
-        }
+) : com.squareup.picasso.Target {
+    override fun onPrepareLoad(placeHolderDrawable: Drawable?) {
+    }
 
-        override fun onBitmapLoaded(bitmap: Bitmap?, from: Picasso.LoadedFrom?) {
-            if (bitmap != null) {
-                bitmapLoaded(bitmap)
-            }
-        }
-
-        override fun onBitmapFailed(e: java.lang.Exception?, errorDrawable: Drawable?) {
+    override fun onBitmapLoaded(bitmap: Bitmap?, from: Picasso.LoadedFrom?) {
+        if (bitmap != null) {
+            bitmapLoaded(bitmap)
         }
     }
+
+    override fun onBitmapFailed(e: java.lang.Exception?, errorDrawable: Drawable?) {
+    }
+}

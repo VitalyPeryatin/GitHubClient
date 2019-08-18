@@ -3,13 +3,13 @@ package com.infinity_coder.githubclient.presentation.profile
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.infinity_coder.githubclient.cache.user.model.RepoEntity
-import com.infinity_coder.githubclient.cache.user.model.UserEntity
-import com.infinity_coder.githubclient.cache.user.model.UserWithReposEntity
-import com.infinity_coder.githubclient.domain.cached_users.UserCachedInteractor
-import com.infinity_coder.githubclient.domain.remote_users.SearchUserRemoteInteractor
-import com.infinity_coder.githubclient.domain.user_repos.UserReposInteractor
-import com.infinity_coder.githubclient.presentation.ScreenMode
+import com.infinity_coder.githubclient.data.base.model.Repo
+import com.infinity_coder.githubclient.data.base.model.User
+import com.infinity_coder.githubclient.data.base.model.UserWithRepos
+import com.infinity_coder.githubclient.domain.profile.interactor.ProfileInteractor
+import com.infinity_coder.githubclient.presentation.base.ScreenState
+import com.infinity_coder.githubclient.presentation.profile.const.ONLINE_STATE_VALUE
+import com.infinity_coder.githubclient.view.base.const.LOG_ERROR
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
@@ -17,81 +17,80 @@ import io.reactivex.functions.BiFunction
 import io.reactivex.rxkotlin.subscribeBy
 
 class ProfileViewModel(
-    private val remoteInteractor: SearchUserRemoteInteractor,
-    private val cachedInteractor: UserCachedInteractor,
-    private val usersReposInteractor: UserReposInteractor
+    private val profileInteractor: ProfileInteractor
 ) : ViewModel() {
 
     private val disposableBag = CompositeDisposable()
-    val userLiveData = MutableLiveData<UserEntity>()
-    val userReposLiveData = MutableLiveData<List<RepoEntity>>()
+
+    val userLiveData = MutableLiveData<User>()
+    val userReposLiveData = MutableLiveData<List<Repo>>()
     val isBookmarkUserLiveData = MutableLiveData<Boolean>()
-    val screenModeLiveData = MutableLiveData<ScreenMode>()
+    val screenModeLiveData = MutableLiveData<ScreenState>()
+    var networkMode = ONLINE_STATE_VALUE
 
-    var networkMode = ONLINE_MODE
-
-    fun requestUserData(username: String?) {
-        if(username != null) {
-            screenModeLiveData.postValue(ScreenMode.WAITING)
-            val disposable =
-                if (networkMode == ONLINE_MODE) {
-                    onlineRequestUserData(username)
-                } else {
-                    offlineRequestUserData(username)
-                }
-            disposableBag.add(disposable)
+    fun requestUserDataIfUsernameNotNull(username: String?) {
+        if (username != null) {
+            screenModeLiveData.postValue(ScreenState.WAITING)
+            requestUserData(username)
         }
     }
 
-    private fun onlineRequestUserData(username: String): Disposable {
-        return remoteInteractor.getUser(username)
-            .doOnSuccess { userLiveData.postValue(it) }
-            .flatMap { cachedInteractor.hasCachedUser(it) }
-            .zipWith(
-                usersReposInteractor.getUserRepos(username),
-                BiFunction<Boolean, List<RepoEntity>, CompositeOfIsUserCachedAndUserRepoList> { isUserCached, userRepos ->
-                    CompositeOfIsUserCachedAndUserRepoList(isUserCached, userRepos)
-                }).subscribeBy(
-                onSuccess = { c ->
-                    isBookmarkUserLiveData.postValue(c.isUserCached)
-                    userReposLiveData.postValue(c.userRepo)
-                    screenModeLiveData.postValue(ScreenMode.RESULT_OK)
-                },
-                onError = {
-                    Log.d("mLog", it.message.toString())
-                    screenModeLiveData.postValue(ScreenMode.RESULT_ERROR)
-                }
-            )
+    private fun requestUserData(username: String) {
+        val disposable =
+            if (networkMode == ONLINE_STATE_VALUE) {
+                onlineRequestUserData(username)
+            } else {
+                offlineRequestUserData(username)
+            }
+        disposableBag.add(disposable)
     }
 
-    private fun offlineRequestUserData(username: String): Disposable {
-        return cachedInteractor.getUser(username)
-            .doOnSuccess {  userWithRepos ->
+    private fun onlineRequestUserData(username: String): Disposable =
+        profileInteractor.getUser(username)
+            .doOnSuccess { userLiveData.postValue(it) }
+            .flatMap { profileInteractor.isUserSaved(it) }
+            .zipWith(
+                profileInteractor.getUserRepos(username),
+                BiFunction<Boolean, List<Repo>, CompositeOfIsUserCachedAndUserRepoList> { isUserCached, userRepos ->
+                    CompositeOfIsUserCachedAndUserRepoList(isUserCached, userRepos)
+                }).subscribeBy(
+                onSuccess = { compositeUserList ->
+                    isBookmarkUserLiveData.postValue(compositeUserList.isUserCached)
+                    userReposLiveData.postValue(compositeUserList.userRepo)
+                    screenModeLiveData.postValue(ScreenState.RESULT_OK)
+                },
+                onError = {
+                    Log.e(LOG_ERROR, it.message.toString())
+                    screenModeLiveData.postValue(ScreenState.RESULT_ERROR)
+                }
+            )
+
+    private fun offlineRequestUserData(username: String): Disposable =
+        profileInteractor.getSavedUserWithRepos(username)
+            .doOnSuccess { userWithRepos ->
                 userLiveData.postValue(userWithRepos.user)
                 userReposLiveData.postValue(userWithRepos.userRepos)
-            }.flatMap { userWithRepos -> cachedInteractor.hasCachedUser(userWithRepos.user) }
+            }.flatMap { userWithRepos -> profileInteractor.isUserSaved(userWithRepos.user) }
             .subscribeBy(
                 onSuccess = { isUserCached ->
                     isBookmarkUserLiveData.postValue(isUserCached)
-                    screenModeLiveData.postValue(ScreenMode.RESULT_OK)
+                    screenModeLiveData.postValue(ScreenState.RESULT_OK)
                 },
                 onError = {
-                    Log.d("mLog", it.message.toString())
-                    screenModeLiveData.postValue(ScreenMode.RESULT_ERROR)
+                    Log.e(LOG_ERROR, it.message.toString())
+                    screenModeLiveData.postValue(ScreenState.RESULT_ERROR)
                 }
             )
-    }
 
-    fun changeUserCachedState(user: UserEntity) {
+    fun changeUserSavedState(user: User) =
         if (isBookmarkUserLiveData.value == true) {
             removeCachedUser(user)
         } else {
             addCachedUser(user)
         }
-    }
 
-    private fun removeCachedUser(user: UserEntity) {
-        val disposableRemove = cachedInteractor.removeCachedUser(user)
+    private fun removeCachedUser(user: User) {
+        val disposableRemove = profileInteractor.removeSavedUser(user)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeBy(
                 onComplete = {
@@ -101,9 +100,13 @@ class ProfileViewModel(
         disposableBag.add(disposableRemove)
     }
 
-    private fun addCachedUser(user: UserEntity) {
-        val disposableAdd = cachedInteractor.addCachedUser(UserWithReposEntity(user, userReposLiveData.value!!))
-            .observeOn(AndroidSchedulers.mainThread())
+    private fun addCachedUser(user: User) {
+        val disposableAdd = profileInteractor.addSavedUser(
+            UserWithRepos(
+                user,
+                userReposLiveData.value!!
+            )
+        ).observeOn(AndroidSchedulers.mainThread())
             .subscribeBy(
                 onComplete = {
                     isBookmarkUserLiveData.postValue(true)
@@ -112,33 +115,28 @@ class ProfileViewModel(
         disposableBag.add(disposableAdd)
     }
 
-    fun requestBookmarkIconState(user: UserEntity) {
-        val bookmarkStateDisposable = cachedInteractor.hasCachedUser(user)
+    fun requestBookmarkIconState(user: User) {
+        val bookmarkStateDisposable = profileInteractor.isUserSaved(user)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeBy(
                 onSuccess = { isUserCached ->
                     isBookmarkUserLiveData.postValue(isUserCached)
                 },
                 onError = {
-                    Log.d("mLog", it.message.toString())
+                    Log.e(LOG_ERROR, it.message.toString())
                 }
             )
         disposableBag.add(bookmarkStateDisposable)
     }
 
     override fun onCleared() {
-        cachedInteractor.applyLast().subscribe()
+        profileInteractor.applyLast().subscribe()
         disposableBag.clear()
         super.onCleared()
     }
 
     data class CompositeOfIsUserCachedAndUserRepoList(
-        var isUserCached: Boolean? = null,
-        var userRepo: List<RepoEntity>? = null
+        var isUserCached: Boolean = false,
+        var userRepo: List<Repo> = emptyList()
     )
-
-    companion object {
-        const val ONLINE_MODE = "online"
-        const val OFFLINE_MODE = "offline"
-    }
 }

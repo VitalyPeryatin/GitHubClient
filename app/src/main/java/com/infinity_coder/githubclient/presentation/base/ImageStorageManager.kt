@@ -4,8 +4,6 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
-import com.infinity_coder.githubclient.presentation.App
 import com.squareup.picasso.Picasso
 import java.io.File
 import java.io.FileOutputStream
