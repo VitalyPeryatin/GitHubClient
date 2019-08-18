@@ -8,4 +8,7 @@
     <string name="cache_user">Cache user</string>
     <string name="no_cached_users">You have not saved any users</string>
     <string name="add_to_bookmark">Bookmark this user</string>
+    <string name="try_again">Try Again</string>
+    <string name="error_description">An error has occurred</string>
+    <string name="search_description">To search for a user, start entering his username</string>
 </resources>

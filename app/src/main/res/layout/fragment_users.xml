@@ -5,13 +5,13 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent">
     <androidx.appcompat.widget.Toolbar
+            android:id="@+id/savedUsersToolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?attr/colorPrimary"
             android:theme="?attr/actionBarTheme"
             android:minHeight="?attr/actionBarSize"
-            app:collapseIcon="@drawable/ic_arrow_back"
-            android:id="@+id/savedUsersToolbar"/>
+            app:collapseIcon="@drawable/ic_arrow_back"/>
 
     <FrameLayout android:layout_width="match_parent"
                  android:layout_height="match_parent">
@@ -19,7 +19,7 @@
                 android:id="@+id/usersRecyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:padding="2dp"
+                android:padding="@dimen/spacing_tinier"
                 android:clipToPadding="false"
                 tools:listitem="@layout/item_user"/>
 
@@ -28,12 +28,15 @@
         <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" android:gravity="center"
+                android:layout_height="match_parent"
+                android:gravity="center"
                 android:id="@+id/emptyLayout">
             <ImageView
-                    android:layout_width="200dp"
-                    android:layout_height="200dp" app:srcCompat="@drawable/ic_search_grey"
-                    android:id="@+id/searchImageView"/>
+                    android:layout_width="@dimen/image_view_width_huge"
+                    android:layout_height="@dimen/image_view_height_huge"
+                    android:id="@+id/searchImageView"
+                    android:contentDescription="@string/search_description"
+                    app:srcCompat="@drawable/ic_search_grey"/>
         </LinearLayout>
     </FrameLayout>
 </LinearLayout>

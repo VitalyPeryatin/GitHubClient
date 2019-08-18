@@ -5,12 +5,12 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent">
     <androidx.appcompat.widget.Toolbar
+            android:id="@+id/savedUsersToolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?attr/colorPrimary"
             android:theme="?attr/actionBarTheme"
             android:minHeight="?attr/actionBarSize"
-            android:id="@+id/savedUsersToolbar"
             app:collapseIcon="@drawable/ic_arrow_back"/>
 
     <androidx.recyclerview.widget.RecyclerView
@@ -27,6 +27,8 @@
             android:layout_height="match_parent"
             android:gravity="center"
             android:visibility="gone"
-            tools:visibility="visible" android:text="@string/no_cached_users" android:textSize="18sp"
-            android:padding="32dp"/>
+            android:text="@string/no_cached_users"
+            android:textSize="18sp"
+            android:padding="@dimen/spacing_larger"
+            tools:visibility="visible"/>
 </LinearLayout>

@@ -8,7 +8,7 @@ import com.infinity_coder.githubclient.cache.saved_users.structure.*
 import com.infinity_coder.githubclient.remote.users.structure.*
 
 @Entity(tableName = USER_TABLE_NAME)
-data class User (
+data class User(
     @PrimaryKey
     @SerializedName(USER_GSON_ID)
     @ColumnInfo(name = USER_FIELD_ID)

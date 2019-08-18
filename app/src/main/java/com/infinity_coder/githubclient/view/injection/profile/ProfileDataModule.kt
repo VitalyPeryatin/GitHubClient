@@ -6,11 +6,11 @@ import com.infinity_coder.githubclient.cache.saved_users.SavedUsersCacheDataSour
 import com.infinity_coder.githubclient.cache.saved_users.dao.RepoEntityDao
 import com.infinity_coder.githubclient.cache.saved_users.dao.UserEntityDao
 import com.infinity_coder.githubclient.cache.saved_users.dao.UserWithReposEntityDao
-import com.infinity_coder.githubclient.domain.profile.repository.ProfileRepository
 import com.infinity_coder.githubclient.data.profile.repository.ProfileRepositoryImpl
 import com.infinity_coder.githubclient.data.saved_users.source.SavedUsersCacheDataSource
 import com.infinity_coder.githubclient.data.saved_users.source.SavedUsersCachedDataSourceProxy
 import com.infinity_coder.githubclient.data.users.source.UsersRemoteDataSource
+import com.infinity_coder.githubclient.domain.profile.repository.ProfileRepository
 import com.infinity_coder.githubclient.remote.users.UsersRemoteDataSourceImpl
 import com.infinity_coder.githubclient.remote.users.service.UsersService
 import dagger.Binds

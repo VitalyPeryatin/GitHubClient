@@ -8,4 +8,7 @@
     <string name="search">Поиск</string>
     <string name="no_cached_users">Вы не сохранили ни одного пользователя</string>
     <string name="add_to_bookmark">Добавить пользователя в закладки</string>
+    <string name="try_again">Попробовать ещё раз</string>
+    <string name="error_description">Произошла ошибка</string>
+    <string name="search_description">Для поиска пользователя начните вводить его логин</string>
 </resources>

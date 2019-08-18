@@ -6,31 +6,32 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/userCardView"
-        app:cardCornerRadius="8dp" android:layout_margin="4dp"
-        android:elevation="2dp"
+        android:layout_margin="@dimen/spacing_tiny"
+        android:elevation="@dimen/spacing_tinier"
         android:clickable="true"
-        android:focusable="true">
+        android:focusable="true"
+        app:cardCornerRadius="@dimen/radius_small">
     <LinearLayout
-            xmlns:android="http://schemas.android.com/apk/res/android"
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="8dp"
+            android:padding="@dimen/spacing_small"
             android:gravity="center">
 
         <de.hdodenhof.circleimageview.CircleImageView
-                android:layout_width="64dp"
-                android:layout_height="64dp"
-                android:id="@+id/avatarImageView" android:layout_marginStart="8dp"
-                android:layout_marginEnd="24dp"
+                android:layout_width="@dimen/image_view_width_normal"
+                android:layout_height="@dimen/image_view_height_normal"
+                android:id="@+id/avatarImageView" android:layout_marginStart="@dimen/spacing_small"
+                android:layout_marginEnd="@dimen/spacing_large"
                 tools:src="@tools:sample/avatars"/>
         <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content" android:id="@+id/userLoginTextView"
                 android:layout_weight="1"
-                android:textSize="16sp" android:textColor="@android:color/black"
-                tools:text="dsifjsofijdsofjdsijfsdjfodsjfdsoifjsoifsfjosifjodsfjsdofjdsoifijdsofjdsiofjdsofsfjofjsoidfjdosifjoidsjfosidjfoisddfjs\"
-                android:typeface="serif" android:inputType="textPersonName"/>
+                android:textSize="@dimen/font_normal"
+                android:textColor="@android:color/black"
+                android:typeface="serif"
+                tools:text="Здесь располагается очень длинный логин пользователя"/>
 
     </LinearLayout>
 </androidx.cardview.widget.CardView>

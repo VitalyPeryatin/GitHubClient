@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- font sizes -->
+    <dimen name="font_large">24sp</dimen>
+    <dimen name="font_normal">16sp</dimen>
+    <dimen name="font_small">14sp</dimen>
+
+    <!-- typical spacing between two views -->
+    <dimen name="spacing_huge">56dp</dimen>
+    <dimen name="spacing_larger">32dp</dimen>
+    <dimen name="spacing_large">24dp</dimen>
+    <dimen name="spacing_normal">16dp</dimen>
+    <dimen name="spacing_small">8dp</dimen>
+    <dimen name="spacing_tiny">4dp</dimen>
+    <dimen name="spacing_tinier">2dp</dimen>
+
+    <!-- typical spacing between two views -->
+    <dimen name="radius_small">8dp</dimen>
+
+    <!-- typical sizes of views -->
+    <dimen name="image_view_width_huge">200dp</dimen>
+    <dimen name="image_view_height_huge">200dp</dimen>
+    <dimen name="image_view_width_large">104dp</dimen>
+    <dimen name="image_view_height_large">104dp</dimen>
+    <dimen name="image_view_width_normal">64dp</dimen>
+    <dimen name="image_view_height_normal">64dp</dimen>
+</resources>

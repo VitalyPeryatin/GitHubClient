@@ -119,7 +119,7 @@ class SavedUsersFragment : Fragment() {
                     return true
                 }
             })
-        }.debounce(50, TimeUnit.MILLISECONDS)
+        }.debounce(100, TimeUnit.MILLISECONDS)
             .distinctUntilChanged()
             .subscribeBy(
                 onNext = { usernameBegin ->

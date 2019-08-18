@@ -4,29 +4,35 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" android:layout_margin="2dp"
-        app:cardBackgroundColor="@android:color/white" app:cardCornerRadius="4dp">
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/spacing_tinier"
+        app:cardBackgroundColor="@android:color/white"
+        app:cardCornerRadius="@dimen/spacing_tiny">
     <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="8dp">
+            android:padding="@dimen/spacing_small">
         <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" android:id="@+id/titleTextView"
-                tools:text="Заголовок"
                 android:singleLine="true" android:textColor="@android:color/holo_blue_dark"
-                android:textSize="24sp"/>
+                android:textSize="@dimen/font_large"
+                tools:text="Заголовок"/>
         <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" android:id="@+id/descriptionTextView"
-                tools:text="Описание"
-                android:maxLines="5" android:textSize="14sp" android:layout_marginTop="8dp"/>
+                android:maxLines="5"
+                android:textSize="@dimen/font_small"
+                android:layout_marginTop="@dimen/spacing_small"
+                tools:text="Описание"/>
         <TextView
+                android:id="@+id/languageTextView"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" android:id="@+id/languageTextView"
-                tools:text="Java"
-                android:singleLine="true" android:textColor="@android:color/holo_orange_dark"
-                android:textSize="16sp"/>
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:textColor="@android:color/holo_orange_dark"
+                android:textSize="@dimen/font_normal"
+                tools:text="Java"/>
     </LinearLayout>
 </androidx.cardview.widget.CardView>

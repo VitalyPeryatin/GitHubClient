@@ -1,9 +1,9 @@
 package com.infinity_coder.githubclient.data.profile.repository
 
-import com.infinity_coder.githubclient.data.saved_users.source.SavedUsersCachedDataSourceProxy
 import com.infinity_coder.githubclient.data.base.model.Repo
 import com.infinity_coder.githubclient.data.base.model.User
 import com.infinity_coder.githubclient.data.base.model.UserWithRepos
+import com.infinity_coder.githubclient.data.saved_users.source.SavedUsersCachedDataSourceProxy
 import com.infinity_coder.githubclient.data.users.source.UsersRemoteDataSource
 import com.infinity_coder.githubclient.domain.profile.repository.ProfileRepository
 import io.reactivex.Completable

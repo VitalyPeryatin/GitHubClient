@@ -3,7 +3,6 @@ package com.infinity_coder.githubclient.presentation.saved_users
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.infinity_coder.githubclient.domain.saved_users.interactor.SavedUsersInteractor
-import java.lang.IllegalArgumentException
 import javax.inject.Inject
 
 class SavedUsersViewModelFactory @Inject constructor(

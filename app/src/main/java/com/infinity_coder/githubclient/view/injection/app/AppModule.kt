@@ -1,7 +1,9 @@
 package com.infinity_coder.githubclient.view.injection.app
 
 import android.content.Context
+import androidx.room.Room
 import com.infinity_coder.githubclient.cache.base.AppDatabase
+import com.infinity_coder.githubclient.cache.saved_users.structure.USER_DATABASE_NAME
 import dagger.Module
 import dagger.Provides
 import retrofit2.Retrofit
@@ -10,7 +12,6 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 @Module
 class AppModule {
-
     @Provides
     @AppScope
     fun provideRetrofit(): Retrofit =
@@ -23,9 +24,14 @@ class AppModule {
     @Provides
     @AppScope
     fun provideAppDatabase(context: Context): AppDatabase =
-        AppDatabase.getAppDatabase(context)
+        Room.databaseBuilder(
+            context.applicationContext,
+            AppDatabase::class.java,
+            USER_DATABASE_NAME
+        ).fallbackToDestructiveMigration()
+            .build()
 
-    companion object {
-        private const val API_URL = "https://api.github.com/"
+    private companion object {
+        const val API_URL = "https://api.github.com/"
     }
 }

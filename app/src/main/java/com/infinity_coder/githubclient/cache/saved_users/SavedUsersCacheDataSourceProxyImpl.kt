@@ -1,9 +1,9 @@
 package com.infinity_coder.githubclient.cache.saved_users
 
-import com.infinity_coder.githubclient.data.saved_users.source.SavedUsersCacheDataSource
-import com.infinity_coder.githubclient.data.saved_users.source.SavedUsersCachedDataSourceProxy
 import com.infinity_coder.githubclient.data.base.model.User
 import com.infinity_coder.githubclient.data.base.model.UserWithRepos
+import com.infinity_coder.githubclient.data.saved_users.source.SavedUsersCacheDataSource
+import com.infinity_coder.githubclient.data.saved_users.source.SavedUsersCachedDataSourceProxy
 import io.reactivex.Completable
 import io.reactivex.Single
 import javax.inject.Inject
@@ -24,7 +24,6 @@ class SavedUsersCacheDataSourceProxyImpl @Inject constructor(
             emitter.onComplete()
         }
 
-
     override fun removeCachedUser(user: User): Completable =
         Completable.create { emitter ->
             isCached = false
@@ -44,7 +43,6 @@ class SavedUsersCacheDataSourceProxyImpl @Inject constructor(
 
     override fun getSavedUserWithRepos(username: String): Single<UserWithRepos> =
         usersCachedDataSource.getSavedUserWithRepos(username)
-
 
     override fun applyLast(): Completable =
         if (isCached != null) {

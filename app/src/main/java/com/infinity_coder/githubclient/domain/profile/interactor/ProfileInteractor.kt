@@ -1,9 +1,9 @@
 package com.infinity_coder.githubclient.domain.profile.interactor
 
-import com.infinity_coder.githubclient.domain.profile.repository.ProfileRepository
 import com.infinity_coder.githubclient.data.base.model.Repo
 import com.infinity_coder.githubclient.data.base.model.User
 import com.infinity_coder.githubclient.data.base.model.UserWithRepos
+import com.infinity_coder.githubclient.domain.profile.repository.ProfileRepository
 import io.reactivex.Completable
 import io.reactivex.Single
 import javax.inject.Inject
@@ -11,7 +11,6 @@ import javax.inject.Inject
 class ProfileInteractor @Inject constructor(
     private val profileRepository: ProfileRepository
 ) {
-
     fun getUser(username: String): Single<User> =
         profileRepository.getUser(username)
 

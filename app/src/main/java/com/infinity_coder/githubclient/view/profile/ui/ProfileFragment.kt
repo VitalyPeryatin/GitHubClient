@@ -19,6 +19,7 @@ import com.infinity_coder.githubclient.view.profile.const.NETWORK_STATE_KEY
 import com.infinity_coder.githubclient.view.profile.const.USER_LOGIN_KEY
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_profile.*
+import kotlinx.android.synthetic.main.layout_app_bar_profile.*
 import kotlinx.android.synthetic.main.layout_error.*
 import kotlinx.android.synthetic.main.layout_waiting.*
 import java.io.File
@@ -83,7 +84,7 @@ class ProfileFragment : Fragment() {
             setDisplayHomeAsUpEnabled(true)
             setDisplayShowHomeEnabled(true)
         }
-        profileToolbar?.run {
+        profileToolbar.run {
             setNavigationIcon(R.drawable.ic_arrow_back)
             setNavigationOnClickListener {
                 activity.onBackPressed()
@@ -134,27 +135,35 @@ class ProfileFragment : Fragment() {
     }
 
     private fun bindUser(user: User) {
-        loadImageInto(user.avatarUrl, avatarImageView)
+        loadImage(user.avatarUrl, avatarImageView)
         followersValueTextView.text = user.followers.toString()
         followingValueTextView.text = user.following.toString()
         nameTextView.text = user.name
         aboutMeTextView.text = user.bio
     }
 
-    private fun loadImageInto(url: String?, imageView: ImageView) {
+    private fun loadImage(url: String?, imageView: ImageView) {
         if (url != null) {
             if (viewModel.networkMode == ONLINE_STATE_VALUE) {
-                Picasso.get()
-                    .load(url)
-                    .placeholder(R.drawable.ic_avatar_placeholder)
-                    .into(imageView)
+                onlineLoadImage(url, imageView)
             } else {
-                Picasso.get()
-                    .load(File(url))
-                    .placeholder(R.drawable.ic_avatar_placeholder)
-                    .into(imageView)
+                offlineLoadImage(url, imageView)
             }
         }
+    }
+
+    private fun onlineLoadImage(url: String, imageView: ImageView) {
+        Picasso.get()
+            .load(url)
+            .placeholder(R.drawable.ic_avatar_placeholder)
+            .into(imageView)
+    }
+
+    private fun offlineLoadImage(url: String, imageView: ImageView) {
+        Picasso.get()
+            .load(File(url))
+            .placeholder(R.drawable.ic_avatar_placeholder)
+            .into(imageView)
     }
 
     private fun requestBookmarkIconState(user: User) =

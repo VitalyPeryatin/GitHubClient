@@ -9,14 +9,15 @@ import com.infinity_coder.githubclient.R
 import com.infinity_coder.githubclient.data.base.model.Repo
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.item_repo.view.*
-import java.util.ArrayList
+import java.util.*
 
 class UserReposRecyclerAdapter : RecyclerView.Adapter<UserReposRecyclerAdapter.ViewHolder>() {
 
     private var userRepos: List<Repo> = ArrayList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.item_repo, parent, false)
+        val itemView =
+            LayoutInflater.from(parent.context).inflate(R.layout.item_repo, parent, false)
         return ViewHolder(
             itemView
         )

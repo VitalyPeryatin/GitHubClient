@@ -6,7 +6,7 @@ import dagger.Component
 import retrofit2.Retrofit
 
 @UsersScope
-@Component(modules = [UsersDataModule::class], dependencies = [AppComponent::class])
+@Component(modules = [UsersModule::class], dependencies = [AppComponent::class])
 interface UsersComponent {
     val retrofit: Retrofit
     fun inject(fragment: UsersFragment)
