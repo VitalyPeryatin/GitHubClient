@@ -14,6 +14,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.functions.BiFunction
+import io.reactivex.rxkotlin.plusAssign
 import io.reactivex.rxkotlin.subscribeBy
 
 class ProfileViewModel(
@@ -36,13 +37,12 @@ class ProfileViewModel(
     }
 
     private fun requestUserData(username: String) {
-        val disposable =
+        disposableBag +=
             if (networkMode == ONLINE_STATE_VALUE) {
                 onlineRequestUserData(username)
             } else {
                 offlineRequestUserData(username)
             }
-        disposableBag.add(disposable)
     }
 
     private fun onlineRequestUserData(username: String): Disposable =
@@ -90,18 +90,17 @@ class ProfileViewModel(
         }
 
     private fun removeCachedUser(user: User) {
-        val disposableRemove = profileInteractor.removeSavedUser(user)
+        disposableBag += profileInteractor.removeSavedUser(user)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeBy(
                 onComplete = {
                     isBookmarkUserLiveData.postValue(false)
                 }
             )
-        disposableBag.add(disposableRemove)
     }
 
     private fun addCachedUser(user: User) {
-        val disposableAdd = profileInteractor.addSavedUser(
+        disposableBag += profileInteractor.addSavedUser(
             UserWithRepos(
                 user,
                 userReposLiveData.value!!
@@ -112,11 +111,10 @@ class ProfileViewModel(
                     isBookmarkUserLiveData.postValue(true)
                 }
             )
-        disposableBag.add(disposableAdd)
     }
 
     fun requestBookmarkIconState(user: User) {
-        val bookmarkStateDisposable = profileInteractor.isUserSaved(user)
+        disposableBag += profileInteractor.isUserSaved(user)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeBy(
                 onSuccess = { isUserCached ->
@@ -126,7 +124,6 @@ class ProfileViewModel(
                     Log.e(LOG_ERROR, it.message.toString())
                 }
             )
-        disposableBag.add(bookmarkStateDisposable)
     }
 
     override fun onCleared() {

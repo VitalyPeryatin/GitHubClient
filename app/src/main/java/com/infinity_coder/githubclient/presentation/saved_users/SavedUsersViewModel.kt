@@ -9,6 +9,7 @@ import com.infinity_coder.githubclient.presentation.base.ScreenState
 import com.infinity_coder.githubclient.view.base.const.LOG_ERROR
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.rxkotlin.plusAssign
 import io.reactivex.rxkotlin.subscribeBy
 import javax.inject.Inject
 
@@ -22,7 +23,7 @@ class SavedUsersViewModel @Inject constructor(
     var lastUsersQuery: String = ""
 
     fun requestUserList(usernameBegin: String) {
-        val userListDisposable = cachedInteractor.getCachedUserList(usernameBegin)
+        disposableBag += cachedInteractor.getCachedUserList(usernameBegin)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeBy(
                 onSuccess = { users ->
@@ -33,7 +34,6 @@ class SavedUsersViewModel @Inject constructor(
                     Log.e(LOG_ERROR, it.message.toString())
                 }
             )
-        disposableBag.add(userListDisposable)
     }
 
     private fun setScreenState(users: List<User>) {

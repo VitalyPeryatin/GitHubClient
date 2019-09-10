@@ -24,6 +24,7 @@ import com.infinity_coder.githubclient.view.profile.ui.ProfileFragment
 import com.infinity_coder.githubclient.view.saved_users.ui.SavedUsersFragment
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.rxkotlin.plusAssign
 import io.reactivex.rxkotlin.subscribeBy
 import kotlinx.android.synthetic.main.fragment_users.*
 import kotlinx.android.synthetic.main.layout_error.*
@@ -155,7 +156,7 @@ class UsersFragment : Fragment() {
     }
 
     private fun observeSearchViewQueryChange(searchView: SearchView) {
-        val searchViewDisposable = Observable.create<String> { emitter ->
+        menuDisposableBag += Observable.create<String> { emitter ->
             searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
                 override fun onQueryTextSubmit(usernameBegin: String): Boolean {
                     searchView.clearFocus()
@@ -181,7 +182,6 @@ class UsersFragment : Fragment() {
                     }
                 }
             )
-        menuDisposableBag.add(searchViewDisposable)
     }
 
     private fun expandSearchViewIfHasNotEmptyQuery(menuItem: MenuItem, searchView: SearchView) {

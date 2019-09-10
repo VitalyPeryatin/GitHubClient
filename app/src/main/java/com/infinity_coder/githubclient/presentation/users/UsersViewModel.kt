@@ -7,6 +7,7 @@ import com.infinity_coder.githubclient.domain.users.interactor.UsersInteractor
 import com.infinity_coder.githubclient.presentation.base.ScreenState
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.rxkotlin.plusAssign
 import io.reactivex.rxkotlin.subscribeBy
 
 class UsersViewModel(
@@ -19,7 +20,7 @@ class UsersViewModel(
 
     fun requestUserList(usernameStart: String) {
         screenModeLiveData.postValue(ScreenState.WAITING)
-        val userListDisposable = searchRemoteUsersInteractor.getUserList(usernameStart)
+        disposableBag += searchRemoteUsersInteractor.getUserList(usernameStart)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeBy(
                 onSuccess = { users ->
@@ -30,7 +31,6 @@ class UsersViewModel(
                     screenModeLiveData.postValue(ScreenState.RESULT_ERROR)
                 }
             )
-        disposableBag.add(userListDisposable)
     }
 
     private fun setScreenState(users: List<User>) {
